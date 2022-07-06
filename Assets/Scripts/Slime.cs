@@ -2,10 +2,18 @@ using UnityEngine;
 
 public class Slime : Enemy
 {
+    [SerializeField] private GameObject _dropObject;
+
     public override void Attack(Collision2D collision)
     {
-        Debug.Log("override");
         base.Attack(collision);
-        transform.Translate(new Vector3(-0.5f, 0f, 0f));
+    }
+
+    public override void Die()
+    {
+        var spawnPosition = transform.position;
+        Instantiate(_dropObject, spawnPosition, Quaternion.identity);
+        base.Die();
+        
     }
 }

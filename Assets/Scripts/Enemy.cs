@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -12,12 +13,14 @@ public class Enemy : MonoBehaviour
 
     private float _health;
     private Animator _animator;
+    private SpriteRenderer _spriteRenderer;
 
     private void Awake()
     {
         _health = _maxHealth;
         _enemyRb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
+        _spriteRenderer = GetComponent<SpriteRenderer>();
     }
 
     private void FixedUpdate()
@@ -47,19 +50,24 @@ public class Enemy : MonoBehaviour
         _enemyRb.MovePosition(enemyPosition + direction * _speed * Time.deltaTime);
     }
 
-    private void GetDamage()
+    public void TakeDamage(int damage)
     {
-
+        _health = Mathf.Max(0, _health - damage);
+        UpdateHealth();
     }
 
     private void UpdateHealth()
     {
-
+        Debug.Log(_health);
+        if (_health == 0)
+        {
+            Die();
+        }
     }
 
-    private void Die()
+    public virtual void Die()
     {
-
+        Destroy(gameObject);
     }
 
     public virtual void Attack(Collision2D collision)
