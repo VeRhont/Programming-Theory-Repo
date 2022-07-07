@@ -15,7 +15,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private LayerMask _enemy;
     [SerializeField] private float _attackRange;
     [SerializeField] private int _damage;
-    private float _timeBetweenAttack;
+    private float _timeBetweenAttack = 1f;
 
     [Header("UI")]
     [SerializeField] private Image _healthBarImage;
@@ -87,6 +87,8 @@ public class PlayerController : MonoBehaviour
         _animator.SetTrigger("Attack");
 
         Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
+
+        if (enemies == null) return;
 
         foreach (var enemy in enemies)
         {
