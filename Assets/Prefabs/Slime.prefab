@@ -158,7 +158,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cd073dee81fb34141952ec22a1ac3d12, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxHealth: 50
+  _maxHealth: 100
   _speed: 0.5
   _damage: 5
   _dropObject: {fileID: 226961217209203218, guid: dd3ae5ea701df394383b9a74b57001e9, type: 3}

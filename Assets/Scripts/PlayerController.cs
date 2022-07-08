@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _maxHealth;
     [SerializeField] private int _countToWin;
+    [SerializeField] private float _heal;
 
     [Header("Attack")]
     [SerializeField] private float _startTimeBetweenAttack;
@@ -49,7 +50,9 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            _spriteRenderer.flipX = _direction.x < 0 ? true : false;
+            //
+            _spriteRenderer.flipX = _direction.x < 0 ? true : false; 
+            //
             _animator.SetBool("IsMoving", true);
         }
 
@@ -57,7 +60,22 @@ public class PlayerController : MonoBehaviour
         {
             if (Input.GetMouseButton(0))
             {
-                Attack();
+                _animator.SetTrigger("Attack");
+
+                Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
+
+                if (enemies == null)
+                {
+                    _timeBetweenAttack = _startTimeBetweenAttack;
+                    return;
+                }
+
+                foreach (var enemy in enemies)
+                {
+                    enemy.GetComponent<Enemy>().TakeDamage(_damage);
+                }
+
+                _timeBetweenAttack = _startTimeBetweenAttack;
             }
         }
         else
@@ -84,18 +102,13 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        _animator.SetTrigger("Attack");
 
-        Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
+    }
 
-        if (enemies == null) return;
-
-        foreach (var enemy in enemies)
-        {
-            enemy.GetComponent<Enemy>().TakeDamage(_damage);
-        }
-
-        _timeBetweenAttack = _startTimeBetweenAttack;
+    private void Heal()
+    {
+        _health = Mathf.Min(100, _health + _heal);
+        UpdateHealth();
     }
 
     private void OnDrawGizmosSelected()
@@ -117,6 +130,11 @@ public class PlayerController : MonoBehaviour
             {
                 Debug.Log("You won!");
             }
+        }
+        else if (collision.CompareTag("Heart"))
+        {
+            Destroy(collision.gameObject);
+            Heal();
         }
     }
 }

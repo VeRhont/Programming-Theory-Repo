@@ -3,7 +3,7 @@ using UnityEngine;
 public class SpawnManager : MonoBehaviour
 {
     [SerializeField] private GameObject[] _spawnPositions;
-    [SerializeField] private GameObject _enemyPrefab;
+    [SerializeField] private GameObject[] _enemyPrefab;
     [SerializeField] private float _spawnDelay;
 
     private void Start()
@@ -13,9 +13,10 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        var index = Random.Range(0, _spawnPositions.Length);
-        var position = _spawnPositions[index].transform.position;
+        var posIndex = Random.Range(0, _spawnPositions.Length);
+        var enemyIndex = Random.Range(0, _enemyPrefab.Length);
+        var position = _spawnPositions[posIndex].transform.position;
 
-        Instantiate(_enemyPrefab, position, Quaternion.identity);
+        Instantiate(_enemyPrefab[enemyIndex], position, Quaternion.identity);
     }
 }

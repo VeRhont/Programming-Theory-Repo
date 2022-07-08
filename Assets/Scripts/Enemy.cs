@@ -12,7 +12,7 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D _enemyRb;
 
     private float _health;
-    private Animator _animator;
+    protected Animator _animator;
     private SpriteRenderer _spriteRenderer;
 
     private void Awake()
@@ -33,15 +33,6 @@ public class Enemy : MonoBehaviour
 
     public virtual void ChasePlayer()
     {
-        if (_player != null)
-        {
-            _animator.SetBool("BoolJump", true);
-        }
-        else
-        {
-            _animator.SetBool("BoolJump", false);
-        }
-
         var playerPosition = _player.transform.position;
         var enemyPosition = transform.position;
 
@@ -59,6 +50,7 @@ public class Enemy : MonoBehaviour
     private void UpdateHealth()
     {
         Debug.Log(_health);
+
         if (_health == 0)
         {
             Die();
