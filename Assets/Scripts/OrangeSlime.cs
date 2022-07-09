@@ -18,6 +18,13 @@ public class OrangeSlime : Enemy
         }
     }
 
+    public override void Attack(Collision2D collision)
+    {
+        _animator.SetTrigger("Attack");
+        _enemyRb.velocity = new Vector2(0, 0);
+        base.Attack(collision);
+    }
+
     public override void Die()
     {
         var spawnPosition = transform.position;

@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8982624861557350023}
   - component: {fileID: 8982624861557350020}
-  - component: {fileID: 8982624861557350021}
+  - component: {fileID: 3593709933978945228}
+  - component: {fileID: 8200805814384365660}
   m_Layer: 0
   m_Name: Stone
   m_TagString: Untagged
@@ -25,7 +26,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8982624861557350138}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 6.88, y: -2.0200005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -85,19 +86,33 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!70 &8982624861557350021
+--- !u!114 &3593709933978945228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8982624861557350138}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5bf86f9df7a70e94a9270e1fd9acc1c1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _offset: 23
+  _isStatic: 1
+--- !u!70 &8200805814384365660
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8982624861557350138}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.030151699, y: 0.0032169526}
-  m_Size: {x: 0.48124808, y: 0.25415805}
+  m_Offset: {x: 0.045038514, y: -0.058379184}
+  m_Size: {x: 0.5545359, y: 0.29185703}
   m_Direction: 1
