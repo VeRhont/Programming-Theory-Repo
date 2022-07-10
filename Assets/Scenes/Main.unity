@@ -793,7 +793,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 115016318}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 365583827}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: ToMenu
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &115016318
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -814,8 +826,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 151555686, guid: faa98bd8d6020ee44b56ce5e70113702, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -1477,10 +1489,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c7b72098f10acf4fac680c93f3c802c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _deathText: {fileID: 0}
-  _winText: {fileID: 0}
-  _newGameButton: {fileID: 0}
-  _toMenuButton: {fileID: 0}
+  _deathText: {fileID: 1702040605}
+  _winText: {fileID: 657294632}
+  _newGameButton: {fileID: 1769676977}
+  _toMenuButton: {fileID: 115016317}
+  _saveAndExitButton: {fileID: 1436559736}
 --- !u!1001 &380782214
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2111,7 +2124,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 2
   _maxHealth: 100
-  _countToWin: 100
+  _countToWin: 10
   _heal: 15
   _startTimeBetweenAttack: 0.5
   _attackPosition: {fileID: 1275850192}
@@ -2122,7 +2135,7 @@ MonoBehaviour:
   _damage: 20
   _healthBarImage: {fileID: 2034918590}
   _diamantCount: {fileID: 1832823925}
-  _gameManager: {fileID: 0}
+  _gatesAnimator: {fileID: 1485707134}
 --- !u!50 &537974903
 Rigidbody2D:
   serializedVersion: 4
@@ -3566,8 +3579,8 @@ MonoBehaviour:
   m_fontMaterials: []
   m_fontColor32:
     serializedVersion: 2
-    rgba: 4281479730
-  m_fontColor: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+    rgba: 4280624552
+  m_fontColor: {r: 0.6603774, g: 0.14640442, b: 0.14640442, a: 1}
   m_enableVertexGradient: 0
   m_colorMode: 3
   m_fontColorGradient:
@@ -119906,8 +119919,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 151555686, guid: faa98bd8d6020ee44b56ce5e70113702, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -120126,8 +120139,8 @@ GameObject:
   - component: {fileID: 1485707136}
   m_Layer: 0
   m_Name: Gates
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
+  m_TagString: Gates
+  m_Icon: {fileID: 6519382022992737161, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
@@ -120228,10 +120241,10 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.01851654, y: 0.047897816}
+  m_Offset: {x: 0.045448303, y: 0.092054844}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -120242,7 +120255,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1.1782303, y: 1.3666182}
+  m_Size: {x: 0.90836334, y: 0.85160923}
   m_EdgeRadius: 0
 --- !u!114 &1485707136
 MonoBehaviour:
@@ -129008,9 +129021,9 @@ MonoBehaviour:
     m_SelectOnRight: {fileID: 0}
   m_Transition: 1
   m_Colors:
-    m_NormalColor: {r: 0.8584906, g: 0.8325015, b: 0.40899786, a: 1}
-    m_HighlightedColor: {r: 1, g: 0.9614555, b: 0.3254717, a: 1}
-    m_PressedColor: {r: 0.6981132, g: 0.67673874, b: 0.30624774, a: 1}
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9056604, g: 0.9056604, b: 0.9056604, a: 1}
+    m_PressedColor: {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
     m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
     m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
     m_ColorMultiplier: 1
@@ -129030,7 +129043,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1769676978}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 365583827}
+        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
+        m_MethodName: NewGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1769676978
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -129051,8 +129076,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
-  m_Type: 1
+  m_Sprite: {fileID: 151555686, guid: faa98bd8d6020ee44b56ce5e70113702, type: 3}
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4

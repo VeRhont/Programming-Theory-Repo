@@ -125,7 +125,9 @@ MonoBehaviour:
   _maxHealth: 25
   _speed: 0.5
   _damage: 10
+  _groundParticles: {fileID: 1369006827686528500, guid: 12abfa26aa5a67d4088852e5861bb112, type: 3}
   _dropObject: {fileID: 5748977079858554503, guid: 3aedcdfe4d724784bbccc49c0ddf8415, type: 3}
+  _deathParticles: {fileID: 7477599198017965876, guid: 6e86ef93289122b48968b39c885df098, type: 3}
 --- !u!70 &2125334484238868594
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

@@ -23,9 +23,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Image _healthBarImage;
     [SerializeField] private TextMeshProUGUI _diamantCount;
 
-    [SerializeField] private GameManager _gameManager;
+    private GameManager _gameManager;
 
-    private Animator _animator;
+    private Animator _playerAnimator;
+    [SerializeField] private Animator _gatesAnimator;
+
     private SpriteRenderer _spriteRenderer;
 
     private float _health;
@@ -41,6 +43,9 @@ public class PlayerController : MonoBehaviour
     public void LoadPlayer()
     {
         var data = SaveSystem.LoadPlayer();
+        if (data == null)
+            return;
+
         _health = data.Health;
         _countToWin = data.MaxCount;
         Wallet.Count = (int)data.Count;
@@ -49,15 +54,17 @@ public class PlayerController : MonoBehaviour
 
     private void Awake()
     {
-        LoadPlayer();
-        UpdateHealth();
+        _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
 
         _health = _maxHealth;
         _playerRb = GetComponent<Rigidbody2D>();
-        _animator = GetComponent<Animator>();
+        _playerAnimator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _diamantCount.SetText($"{Wallet.GetCount()}/{_countToWin}");
+
+        UpdateHealth();
+        LoadPlayer();
     }
 
     private void Update()
@@ -67,14 +74,14 @@ public class PlayerController : MonoBehaviour
 
         if (_direction == new Vector2(0, 0))
         {
-            _animator.SetBool("IsMoving", false);
+            _playerAnimator.SetBool("IsMoving", false);
         }
         else
         {
             //
             _spriteRenderer.flipX = _direction.x < 0 ? true : false; 
             //
-            _animator.SetBool("IsMoving", true);
+            _playerAnimator.SetBool("IsMoving", true);
         }
 
         if (_timeBetweenAttack <= 0)
@@ -98,6 +105,12 @@ public class PlayerController : MonoBehaviour
     private void UpdateHealth()
     {
         _healthBarImage.fillAmount = _health / _maxHealth;
+
+        if (_health == 0)
+        {
+            _gameManager.IsGameActive = false;
+            _gameManager.LoseGame();
+        }
     }
 
     public void GetDamage(float damage)
@@ -108,7 +121,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
-        _animator.SetTrigger("Attack");
+        _playerAnimator.SetTrigger("Attack");
 
         Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
 
@@ -156,15 +169,23 @@ public class PlayerController : MonoBehaviour
             Wallet.AddDiamant();
             _diamantCount.SetText($"{Wallet.GetCount()}/{_countToWin}");
 
-            if (Wallet.GetCount() == _countToWin)
+            if (Wallet.GetCount() >= _countToWin)
             {
-                _gameManager.IsGameActive = false;
+                _gatesAnimator.SetBool("AreCollected", true);
             }
         }
         else if (collision.CompareTag("Heart"))
         {
             Destroy(collision.gameObject);
             Heal();
+        }
+        else if (collision.CompareTag("Gates"))
+        {
+            if (Wallet.GetCount() >= _countToWin)
+            {
+                _gameManager.IsGameActive = false;
+                _gameManager.WinGame();
+            }
         }
     }
 }
