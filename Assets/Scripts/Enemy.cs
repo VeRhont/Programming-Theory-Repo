@@ -7,6 +7,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private float _damage;
 
+    [SerializeField] private ParticleSystem _groundParticles;
+
     protected GameObject _player;
     protected Rigidbody2D _enemyRb;
 
@@ -32,10 +34,16 @@ public class Enemy : MonoBehaviour
         {
             ChasePlayer();
         }
+        else
+        {
+            _groundParticles.gameObject.SetActive(false);
+        }
     }
 
     public virtual void ChasePlayer()
     {
+        _groundParticles.gameObject.SetActive(true);
+
         var playerPosition = _player.transform.position;
         var enemyPosition = transform.position;
 

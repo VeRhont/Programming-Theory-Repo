@@ -29,10 +29,11 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private AudioClip _deathSound;
     [SerializeField] private AudioClip _diamantSound;
     [SerializeField] private AudioClip _healSound;
+    [SerializeField] private AudioClip _openedPortalSound;
 
     [Header("Particles")]
     [SerializeField] private ParticleSystem _redParticles;
-    [SerializeField] private ParticleSystem _playerParticles;
+    [SerializeField] private ParticleSystem _groundParticles;
 
     private AudioSource _audioSource;
 
@@ -89,10 +90,12 @@ public class PlayerController : MonoBehaviour
 
         if (_direction == new Vector2(0, 0))
         {
+            _groundParticles.gameObject.SetActive(false);
             _playerAnimator.SetBool("IsMoving", false);
         }
         else
         {
+            _groundParticles.gameObject.SetActive(true);
             //
             _spriteRenderer.flipX = _direction.x < 0 ? true : false; 
             //
@@ -193,6 +196,7 @@ public class PlayerController : MonoBehaviour
 
             if (Wallet.GetCount() >= _countToWin)
             {
+                _audioSource.PlayOneShot(_openedPortalSound);
                 _gatesAnimator.SetBool("AreCollected", true);
             }
         }

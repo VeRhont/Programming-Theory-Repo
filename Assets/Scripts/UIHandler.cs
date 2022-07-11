@@ -1,9 +1,13 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.IO;
+using UnityEngine.UI;
 
 public class UIHandler : MonoBehaviour
 {
+    [SerializeField] private AudioSource _mainAudioSource;
+    [SerializeField] private Slider _slider;
+
     private AudioSource _audioSource;
 
     private void Awake()
@@ -24,6 +28,11 @@ public class UIHandler : MonoBehaviour
         Wallet.Count = 0;
         File.Delete(path);
         SceneManager.LoadScene(0);
+    }
+
+    public void ChangeVolume()
+    {
+        _mainAudioSource.volume = _slider.value;
     }
 
     public void Quit()
