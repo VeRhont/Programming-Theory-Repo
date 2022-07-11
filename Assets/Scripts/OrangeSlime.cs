@@ -4,6 +4,7 @@ public class OrangeSlime : Enemy
 {
     [SerializeField] private GameObject _dropObject;
     [SerializeField] private ParticleSystem _deathParticles;
+    [SerializeField] private AudioClip _deathSound;
 
     public override void ChasePlayer()
     {
@@ -31,6 +32,8 @@ public class OrangeSlime : Enemy
         var spawnPosition = transform.position;
         Instantiate(_dropObject, spawnPosition, Quaternion.identity);
         Instantiate(_deathParticles, spawnPosition, _deathParticles.transform.rotation);
+        _audioSource.PlayOneShot(_deathSound);
+
         base.Die();
     }
 }

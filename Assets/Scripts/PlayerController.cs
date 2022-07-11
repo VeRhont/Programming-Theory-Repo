@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +23,18 @@ public class PlayerController : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image _healthBarImage;
     [SerializeField] private TextMeshProUGUI _diamantCount;
+
+    [Header("Sound")]
+    [SerializeField] private AudioClip _attackSound;
+    [SerializeField] private AudioClip _deathSound;
+    [SerializeField] private AudioClip _diamantSound;
+    [SerializeField] private AudioClip _healSound;
+
+    [Header("Particles")]
+    [SerializeField] private ParticleSystem _redParticles;
+    [SerializeField] private ParticleSystem _playerParticles;
+
+    private AudioSource _audioSource;
 
     private GameManager _gameManager;
 
@@ -49,12 +62,14 @@ public class PlayerController : MonoBehaviour
         _health = data.Health;
         _countToWin = data.MaxCount;
         Wallet.Count = (int)data.Count;
+        _diamantCount.SetText($"{Wallet.GetCount()}/{_countToWin}");
         transform.position = new Vector2(data.XPosition, data.YPosition);
     }
 
     private void Awake()
     {
         _gameManager = GameObject.Find("Game Manager").GetComponent<GameManager>();
+        _audioSource = GetComponent<AudioSource>();
 
         _health = _maxHealth;
         _playerRb = GetComponent<Rigidbody2D>();
@@ -62,9 +77,9 @@ public class PlayerController : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteRenderer>();
 
         _diamantCount.SetText($"{Wallet.GetCount()}/{_countToWin}");
+        LoadPlayer();
 
         UpdateHealth();
-        LoadPlayer();
     }
 
     private void Update()
@@ -108,9 +123,18 @@ public class PlayerController : MonoBehaviour
 
         if (_health == 0)
         {
-            _gameManager.IsGameActive = false;
-            _gameManager.LoseGame();
+            _audioSource.PlayOneShot(_deathSound);
+            _playerAnimator.SetBool("IsAlive", false);
+
+            StartCoroutine("LoseGame");
         }
+    }
+
+    private IEnumerator LoseGame()
+    {
+        yield return new WaitForSeconds(1);
+        _gameManager.IsGameActive = false;
+        _gameManager.LoseGame();
     }
 
     public void GetDamage(float damage)
@@ -121,6 +145,7 @@ public class PlayerController : MonoBehaviour
 
     private void Attack()
     {
+        _audioSource.PlayOneShot(_attackSound);
         _playerAnimator.SetTrigger("Attack");
 
         Collider2D[] enemies = Physics2D.OverlapCircleAll(_attackPosition.position, _attackRange, _enemy);
@@ -145,6 +170,7 @@ public class PlayerController : MonoBehaviour
 
     private void Heal()
     {
+        _audioSource.PlayOneShot(_healSound);
         _health = Mathf.Min(100, _health + _heal);
         UpdateHealth();
     }
@@ -154,17 +180,13 @@ public class PlayerController : MonoBehaviour
         return new float[] { _health, Wallet.GetCount(), _countToWin, transform.position.x, transform.position.y };
     }
 
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_attackPosition.position, _attackRange);
-    }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Diamant"))
         {
             Destroy(collision.gameObject);
+            Instantiate(_redParticles, collision.transform.position, _redParticles.transform.rotation);
+            _audioSource.PlayOneShot(_diamantSound);
 
             Wallet.AddDiamant();
             _diamantCount.SetText($"{Wallet.GetCount()}/{_countToWin}");
@@ -177,6 +199,7 @@ public class PlayerController : MonoBehaviour
         else if (collision.CompareTag("Heart"))
         {
             Destroy(collision.gameObject);
+            Instantiate(_redParticles, collision.transform.position, _redParticles.transform.rotation);
             Heal();
         }
         else if (collision.CompareTag("Gates"))
@@ -219,7 +242,10 @@ public static class Wallet
         set { _count = value; }
     }
 
-    public static void AddDiamant() => _count++;
+    public static void AddDiamant()
+    {
+        _count++;
+    }
 
     public static int GetCount() => _count;
 }

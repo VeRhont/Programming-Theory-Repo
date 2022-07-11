@@ -13,34 +13,46 @@ public class GameManager : MonoBehaviour
     [SerializeField] private Button _toMenuButton;
     [SerializeField] private Button _saveAndExitButton;
 
+    private AudioSource _audioSource;
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
+
     public bool IsGameActive { get; set; }
 
     public void WinGame()
     {
         Time.timeScale = 0;
         _winText.gameObject.SetActive(true);
-        _newGameButton.gameObject.SetActive(true);
-        _toMenuButton.gameObject.SetActive(true);
-        _saveAndExitButton.gameObject.SetActive(false);
+        ShowButtons();
     }
 
     public void LoseGame()
     {
         Time.timeScale = 0;
         _deathText.gameObject.SetActive(true);
+        ShowButtons();
+    }
+
+    private void ShowButtons()
+    {
         _newGameButton.gameObject.SetActive(true);
         _toMenuButton.gameObject.SetActive(true);
         _saveAndExitButton.gameObject.SetActive(false);
     }
 
-    public void ToMenu()
+    public void ReturnToMenu()
     {
+        _audioSource.Play();
         Time.timeScale = 1;
         SceneManager.LoadScene(1);
     }
 
-    public void NewGame()
+    public void StartNewGame()
     {
+        _audioSource.Play();
         Time.timeScale = 1;
         var path = Application.persistentDataPath + "/player.data";
         Wallet.Count = 0;

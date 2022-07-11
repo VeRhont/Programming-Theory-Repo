@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -13,7 +11,10 @@ public class Enemy : MonoBehaviour
     protected Rigidbody2D _enemyRb;
 
     private float _health;
+
     protected Animator _animator;
+    protected AudioSource _audioSource;
+
     private SpriteRenderer _spriteRenderer;
 
     private void Awake()
@@ -22,6 +23,7 @@ public class Enemy : MonoBehaviour
         _enemyRb = GetComponent<Rigidbody2D>();
         _animator = GetComponent<Animator>();
         _spriteRenderer = GetComponent<SpriteRenderer>();
+        _audioSource = GetComponent<AudioSource>();
     }
 
     private void FixedUpdate()
